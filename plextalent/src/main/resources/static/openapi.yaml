@@ -1,0 +1,172 @@
+openapi: 3.0.3
+info:
+  title: Plex Talent User API
+  description:  This API provides methods for managing Plex Talent application.
+  
+  version: 1.0.0
+springdoc:
+  use-root-path:false
+  path:/swagger-ui.html
+  enabled:true
+servers:
+  - url: https://localhost:8080/api/v1
+tags:
+  - name: user
+    description: This endpoint manages information about Plex Talent users.
+    
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Add a new user to the db
+      description: Add a new user to the db by defining information in body
+      requestBody:
+        description: Add a new user to the db
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyUserPost'
+            
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            
+        '500':
+          description: Internal Error
+  
+    get:
+      tags:
+        - user
+      summary: Show all users from db
+      description: Show all users from db
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            
+        '500':
+          description: Internal Error
+  /user/{id}:
+    put:
+      summary: Change user's passkey
+      description: Change user's passkey introducing the id in path
+      parameters:
+        - in: path
+          name: id
+          required: true
+          explode: true
+          schema:
+            type: string
+            example: 643921645e70112be42a3754
+            
+      requestBody:
+        
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyUserPut'
+            
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            
+        '500':
+          description: Internal Error
+    delete:
+      summary: Delete an user from db
+      description: Delete an user from db introducing the id in path
+      parameters:
+        - in: path
+          name: id
+          required: true
+          explode: true
+          schema:
+            type: string
+            example: 643921645e70112be42a3754
+      responses:
+        '200':
+          description: Successful operation
+           
+        '500':
+          description: Internal Error
+    get:
+      summary: Show an especific user
+      description: Show an especific user introducing the id in path
+      parameters:
+        - in: path
+          name: id
+          required: true
+          explode: true
+          schema:
+            type: string
+            example: 643921645e70112be42a3754
+      
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            
+        '500':
+          description: Internal Error
+      
+components:
+  schemas:
+    BodyUserPost:
+      type: object
+      properties:
+        username:
+          type: string
+          description: User's first name
+          example: Usuario1
+        userlastname:
+          type: string
+          description: User's last name
+          example: Apellido1
+        passkey:
+          type: string
+          description: User's passkey
+          example: PassKey1
+    User:
+      type: object
+      properties:
+        id: 
+          type: string
+          description: User ID
+          example: 643921645e70112be42a3754
+        username:
+          type: string
+          description: User's first name
+          example: Nombre1
+        userlastname:
+          type: string
+          description: User's last name
+          example: Apellido1
+        passkey:
+          type: string
+          example: PassKey1
+    BodyUserPut:
+      type: object
+      properties:
+        passkey:
+          type: string
+          description: User's passkey
+          example: PassKeyNew
+        
+    
+ 
